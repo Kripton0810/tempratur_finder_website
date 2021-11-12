@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(rgba(47,150,163), rgba(48,62,143));
+    font-family: sans-serif;
+    color: white;
+}
+.location,
+.temperature{
+    height: 30vh;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.temperature
+{
+    flex-direction: column;
+}
+.degree-section {
+display: flex;
+align-items: center;
+cursor:pointer;
+}
+.degree-section span {
+    margin: 10px;
+    font-size: 30px;
+}
+.degree-section h2 {
+    font-size: 40px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="location">
+        <h1 class="location-timezone" id="location">Timezone</h1>
+        <p><img id="images"></p>
+    </div>
+    <div class="temperature">
+        <div class="degree-section">
+        <h2 class="temperature-degree" id="temp">34</h2>
+        <span><sup>°C</sup></span>
+    </div>
+        <div class="temperature-desciption" id="desc">Its cold</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        $.ajax({
+            url:'https://api.openweathermap.org/data/2.5/weather',
+            type:'get',
+            data:{
+                'lat':'22.8046',
+                'lon':'86.2029',
+                'appid':'ff66c437b1f0b27ac239063aa98879ca'
+            },
+            success:function(data)
+            {
+                var img = document.getElementById('images');
+                var d = document.getElementById('desc');
+                var l = document.getElementById('location');
+                var t = document.getElementById('temp');
+                var temp = data.main.temp-273.15;
+                var name = data.name;
+                var desc = data.weather[0].description;
+                var icon = data.weather[0].icon;
+                var link ="http://openweathermap.org/img/wn/"+icon+"@2x.png";
+                img.setAttribute('src',link);
+                console.log(link);
+                l.innerText=name;
+                d.innerText=desc;
+                t.innerText = temp.toPrecision(2)
+                console.log(desc)
+                console.log(temp)
+                console.log(name)
+                console.log(data)
+            }
+        })
+    </script>
+</body>
+</html>
